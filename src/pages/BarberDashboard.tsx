@@ -1,5 +1,5 @@
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import {
   BarChart,
   Bar,
@@ -8,7 +8,8 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from "recharts";
+} from "recharts"
+import { ServiceEntry } from "@/components/ServiceEntry"
 
 const mockData = [
   { name: "Seg", value: 400 },
@@ -18,13 +19,13 @@ const mockData = [
   { name: "Sex", value: 500 },
   { name: "Sab", value: 800 },
   { name: "Dom", value: 100 },
-];
+]
 
 const mockServices = [
   { id: 1, service: "Corte Masculino", value: 35, commission: 14 },
   { id: 2, service: "Barba", value: 25, commission: 10 },
   { id: 3, service: "Corte + Barba", value: 55, commission: 22 },
-];
+]
 
 const BarberDashboard = () => {
   return (
@@ -38,65 +39,78 @@ const BarberDashboard = () => {
           <Button variant="outline">Atualizar Dados</Button>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card className="p-6">
-            <h3 className="text-lg font-medium">Ganhos Hoje</h3>
-            <p className="text-3xl font-bold mt-2">€46,00</p>
-            <p className="text-sm text-muted-foreground mt-1">Comissão: €18,40</p>
-          </Card>
-          <Card className="p-6">
-            <h3 className="text-lg font-medium">Ganhos esta Semana</h3>
-            <p className="text-3xl font-bold mt-2">€385,00</p>
-            <p className="text-sm text-muted-foreground mt-1">Comissão: €154,00</p>
-          </Card>
-          <Card className="p-6">
-            <h3 className="text-lg font-medium">Serviços Hoje</h3>
-            <p className="text-3xl font-bold mt-2">5</p>
-            <p className="text-sm text-muted-foreground mt-1">+2 agendados</p>
-          </Card>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="space-y-6">
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="p-6">
+                <h3 className="text-lg font-medium">Ganhos Hoje</h3>
+                <p className="text-3xl font-bold mt-2">€46,00</p>
+                <p className="text-sm text-muted-foreground mt-1">Comissão: €18,40</p>
+              </Card>
+              <Card className="p-6">
+                <h3 className="text-lg font-medium">Ganhos esta Semana</h3>
+                <p className="text-3xl font-bold mt-2">€385,00</p>
+                <p className="text-sm text-muted-foreground mt-1">Comissão: €154,00</p>
+              </Card>
+              <Card className="p-6">
+                <h3 className="text-lg font-medium">Serviços Hoje</h3>
+                <p className="text-3xl font-bold mt-2">5</p>
+                <p className="text-sm text-muted-foreground mt-1">+2 agendados</p>
+              </Card>
+            </div>
+
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-4">Desempenho Semanal</h3>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={mockData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#1a2b4b" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h3 className="text-xl font-semibold mb-4">Últimos Serviços</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-3 px-4">Serviço</th>
+                      <th className="text-right py-3 px-4">Valor</th>
+                      <th className="text-right py-3 px-4">Comissão</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {mockServices.map((service) => (
+                      <tr key={service.id} className="border-b">
+                        <td className="py-3 px-4">{service.service}</td>
+                        <td className="text-right py-3 px-4">€{service.value}</td>
+                        <td className="text-right py-3 px-4">€{service.commission}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+          </div>
+
+          <div className="space-y-6">
+            <ServiceEntry
+              onServiceComplete={(service) => {
+                console.log("Service completed:", service)
+                // Here we'll update the UI with the new service
+              }}
+            />
+          </div>
         </div>
-
-        <Card className="p-6">
-          <h3 className="text-xl font-semibold mb-4">Desempenho Semanal</h3>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={mockData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" fill="#1a2b4b" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <h3 className="text-xl font-semibold mb-4">Últimos Serviços</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-3 px-4">Serviço</th>
-                  <th className="text-right py-3 px-4">Valor</th>
-                  <th className="text-right py-3 px-4">Comissão</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mockServices.map((service) => (
-                  <tr key={service.id} className="border-b">
-                    <td className="py-3 px-4">{service.service}</td>
-                    <td className="text-right py-3 px-4">€{service.value}</td>
-                    <td className="text-right py-3 px-4">€{service.commission}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default BarberDashboard;
+export default BarberDashboard
