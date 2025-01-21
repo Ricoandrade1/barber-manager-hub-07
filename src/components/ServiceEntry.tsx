@@ -15,6 +15,13 @@ const serviceTypes = [
   { id: "beard-design", name: "Design Barba", basePrice: 35 },
 ]
 
+const extraServiceTypes = [
+  { id: "eyebrows", name: "Tratamento de Sobrancelhas", basePrice: 15 },
+  { id: "design-art", name: "Design Artístico", basePrice: 25 },
+  { id: "hair-treatment", name: "Tratamento Capilar", basePrice: 30 },
+  { id: "color", name: "Coloração", basePrice: 40 },
+]
+
 const products = [
   { id: "1", name: "Shampoo Premium", basePrice: 20, stock: 15 },
   { id: "2", name: "Pomada Modeladora", basePrice: 15, stock: 25 },
@@ -32,7 +39,6 @@ export function ServiceEntry({ onServiceComplete }: ServiceEntryProps) {
   const [selectedService, setSelectedService] = useState("")
   const [clientName, setClientName] = useState("")
   const [extraService, setExtraService] = useState("")
-  const [notes, setNotes] = useState("")
   const [selectedProduct, setSelectedProduct] = useState("")
   const [quantity, setQuantity] = useState("1")
 
@@ -59,7 +65,6 @@ export function ServiceEntry({ onServiceComplete }: ServiceEntryProps) {
       type: selectedService,
       clientName,
       extraService,
-      notes,
       timestamp: new Date().toISOString(),
       price: serviceTypes.find(s => s.id === selectedService)?.basePrice || 0,
     }
@@ -75,7 +80,6 @@ export function ServiceEntry({ onServiceComplete }: ServiceEntryProps) {
       setSelectedService("")
       setClientName("")
       setExtraService("")
-      setNotes("")
 
       if (onServiceComplete) {
         onServiceComplete(serviceDetails)
@@ -173,22 +177,18 @@ export function ServiceEntry({ onServiceComplete }: ServiceEntryProps) {
 
             <div className="space-y-2">
               <Label htmlFor="extra-service">Serviço Extra</Label>
-              <Input
-                id="extra-service"
-                value={extraService}
-                onChange={(e) => setExtraService(e.target.value)}
-                placeholder="Serviço adicional"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="notes">Observações</Label>
-              <Input
-                id="notes"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Observações adicionais"
-              />
+              <Select value={extraService} onValueChange={setExtraService}>
+                <SelectTrigger id="extra-service">
+                  <SelectValue placeholder="Selecione o serviço extra (opcional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  {extraServiceTypes.map((service) => (
+                    <SelectItem key={service.id} value={service.id}>
+                      {service.name} - €{service.basePrice}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <Button type="submit" className="w-full">
