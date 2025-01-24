@@ -11,22 +11,6 @@ import {
 } from "recharts"
 import { ServiceEntry } from "@/components/ServiceEntry"
 
-const mockData = [
-  { name: "Seg", value: 400 },
-  { name: "Ter", value: 300 },
-  { name: "Qua", value: 600 },
-  { name: "Qui", value: 400 },
-  { name: "Sex", value: 500 },
-  { name: "Sab", value: 800 },
-  { name: "Dom", value: 100 },
-]
-
-const mockServices = [
-  { id: 1, service: "Corte Masculino", value: 35, commission: 14 },
-  { id: 2, service: "Barba", value: 25, commission: 10 },
-  { id: 3, service: "Corte + Barba", value: 55, commission: 22 },
-]
-
 const BarberDashboard = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
@@ -34,7 +18,7 @@ const BarberDashboard = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold text-primary">Dashboard do Barbeiro</h1>
-            <p className="text-muted-foreground">Bem-vindo de volta, João</p>
+            <p className="text-muted-foreground">Bem-vindo de volta</p>
           </div>
           <Button variant="outline">Atualizar Dados</Button>
         </div>
@@ -44,18 +28,18 @@ const BarberDashboard = () => {
             <div className="grid md:grid-cols-3 gap-6">
               <Card className="p-6">
                 <h3 className="text-lg font-medium">Ganhos Hoje</h3>
-                <p className="text-3xl font-bold mt-2">€46,00</p>
-                <p className="text-sm text-muted-foreground mt-1">Comissão: €18,40</p>
+                <p className="text-3xl font-bold mt-2">€0,00</p>
+                <p className="text-sm text-muted-foreground mt-1">Comissão: €0,00</p>
               </Card>
               <Card className="p-6">
                 <h3 className="text-lg font-medium">Ganhos esta Semana</h3>
-                <p className="text-3xl font-bold mt-2">€385,00</p>
-                <p className="text-sm text-muted-foreground mt-1">Comissão: €154,00</p>
+                <p className="text-3xl font-bold mt-2">€0,00</p>
+                <p className="text-sm text-muted-foreground mt-1">Comissão: €0,00</p>
               </Card>
               <Card className="p-6">
                 <h3 className="text-lg font-medium">Serviços Hoje</h3>
-                <p className="text-3xl font-bold mt-2">5</p>
-                <p className="text-sm text-muted-foreground mt-1">+2 agendados</p>
+                <p className="text-3xl font-bold mt-2">0</p>
+                <p className="text-sm text-muted-foreground mt-1">0 agendados</p>
               </Card>
             </div>
 
@@ -63,7 +47,7 @@ const BarberDashboard = () => {
               <h3 className="text-xl font-semibold mb-4">Desempenho Semanal</h3>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={mockData}>
+                  <BarChart data={[]}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
@@ -86,13 +70,6 @@ const BarberDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {mockServices.map((service) => (
-                      <tr key={service.id} className="border-b">
-                        <td className="py-3 px-4">{service.service}</td>
-                        <td className="text-right py-3 px-4">€{service.value}</td>
-                        <td className="text-right py-3 px-4">€{service.commission}</td>
-                      </tr>
-                    ))}
                   </tbody>
                 </table>
               </div>
@@ -103,7 +80,6 @@ const BarberDashboard = () => {
             <ServiceEntry
               onServiceComplete={(service) => {
                 console.log("Service completed:", service)
-                // Here we'll update the UI with the new service
               }}
             />
           </div>
