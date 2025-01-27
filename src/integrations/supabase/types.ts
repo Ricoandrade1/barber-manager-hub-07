@@ -9,7 +9,93 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      barbers: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      service_records: {
+        Row: {
+          barber_id: string | null
+          commission_paid: number
+          created_at: string
+          id: string
+          price_charged: number
+          service_id: string | null
+        }
+        Insert: {
+          barber_id?: string | null
+          commission_paid: number
+          created_at?: string
+          id?: string
+          price_charged: number
+          service_id?: string | null
+        }
+        Update: {
+          barber_id?: string | null
+          commission_paid?: number
+          created_at?: string
+          id?: string
+          price_charged?: number
+          service_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_records_barber_id_fkey"
+            columns: ["barber_id"]
+            isOneToOne: false
+            referencedRelation: "barbers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_records_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          commission_rate: number
+          created_at: string
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          commission_rate: number
+          created_at?: string
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
